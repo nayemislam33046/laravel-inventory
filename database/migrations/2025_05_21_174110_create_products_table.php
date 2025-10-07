@@ -9,28 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-     public function up(): void
+    public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('sku')->unique();
-            $table->text('description')->nullable();
-            $table->decimal('price', 10, 2);
-            $table->integer('quantity')->default(0);
-            $table->string('image_path')->nullable();
-            
-            // Foreign key for category
-            $table->foreign('category_id')
-              ->references('id')
-              ->on('categories')
-              ->onDelete('cascade');
-    });
-    }
+   Schema::create('products', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('sku')->unique();
+    $table->text('description')->nullable();
+    $table->decimal('price', 10, 2);
+    $table->integer('quantity')->default(0);
+    $table->string('image_path')->nullable();
+    $table->unsignedBigInteger('category_id')->nullable();
+    $table->softDeletes();
+    $table->timestamps();
+});
 
-    /**
-     * Reverse the migrations.
-     */
+    }
     public function down(): void
     {
         Schema::dropIfExists('products');
